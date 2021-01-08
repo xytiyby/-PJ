@@ -8,12 +8,9 @@ $dbname = "my_db";
 
 // 创建连接
 $conn = new mysqli($servername, $username, $password, $dbname);
-
-
-
-
+$id = $_GET['id'];
 //编写查询sql语句
-$sql = 'SELECT * FROM `patient`';
+$sql="SELECT * FROM `HouseNurse` WHERE `number` < `max` ";
 //执行查询操作、处理结果集
 $result = mysqli_query($conn, $sql);
 if (!$result) {
@@ -22,7 +19,7 @@ if (!$result) {
 $data = mysqli_fetch_all($result, MYSQLI_ASSOC);
 
 //编写查询数量sql语句
-$sql = 'SELECT COUNT(*) FROM `patient`';
+$sql = 'SELECT COUNT(*) FROM `HouseNurse`';
 //执行查询操作、处理结果集
 $n = mysqli_query($conn, $sql);
 if (!$n) {
@@ -38,7 +35,7 @@ $num = implode($num);
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>查看病人</title>
+    <title>尚空闲护士</title>
 </head>
 <style type="text/css">
     body {
@@ -74,15 +71,15 @@ $num = implode($num);
 <body>
 
 <div class="wrapper">
-    <h1>病人信息管理</h1>
+
+    <h1>病床信息管理</h1>
 
     <table width="960" border="1">
         <tr>
-            <th>住院号</th>
-            <th>姓名</th>
-            <th>性别</th>
-            <th>年龄</th>
-            <th>电话</th>
+            <th > <input name="nurseId" type = "text" value="护士编号" readonly = "readonly"></th>
+            <th><input name="area" type = "text" value="所在病区" readonly = "readonly"></th>
+            <th><input name="max" type = "text" value="最大可照看人数" readonly = "readonly"></th>
+            <th><input name="number" type = "text" value="已照看人数" readonly = "readonly"></th>
         </tr>
         <?php
 
@@ -91,49 +88,42 @@ $num = implode($num);
             foreach ($value as $k => $v) {
                 $arr[$k] = $v;
             }
-            echo "<tr>";
-            echo "<td>{$arr['id']}</td>";
-            echo "<td>{$arr['name']}</td>";
-            echo "<td>{$arr['sex']}</td>";
-            echo "<td>{$arr['age']}</td>";
-            echo "<td>{$arr['num']}</td>";
-            echo "</tr>";
 
+            echo "<tr>";
+            echo "<td>{$arr['nurseId']}</td>";
+            echo "<td>{$arr['area']}</td>";
+            echo "<td>{$arr['max']}</td>";
+            echo "<td>{$arr['number']}</td>";
+            echo "</tr>";
         }
         // 关闭连接
         mysqli_close($conn);
         ?>
-
     </table>
-    <table width="960" border="1">
-        <form method="post" action="action_select.php" enctype="multipart/form-data">
+    <h1>护士分配</h1>
+    <form method="post" action="action_distributeHouseNurse.php" enctype="multipart/form-data">
+        <table style="border: 1px;margin: 0 auto;background:oldlace" width="40%" cellpadding="5" cellspacing="0" >
             <tr>
-                <td>病区评级</td>
-                <td><input type="text" name="level" style="width:90%" >
+                <td>护士编号</td>
+                <td><input type="text" name="nurseId" style="width:90%" >
                 </td>
             </tr>
-
             <tr>
-                <td>治疗区域</td>
-                <td><input type="text" name="canOut" style="width:90%"></td>
+                <td>病人编号</td>
+                <td><input type="text" name="id" style="width:90%"></td>
             </tr>
 
             <tr>
-                <td>是否转入其他区域</td>
-                <td><input type="text" name="canChange" style="width:90%"></td>
-            </tr>
-            <tr>
-                <td>生命状态</td>
-                <td><input type="text" name="state" style="width:90%"></td>
+                <td>分配后照顾人数</td>
+                <td><input type="text" name="number" style="width:90%"></td>
             </tr>
             <tr>
                 <td colspan="4" align="center">
                     <input type="submit">
                 </td>
             </tr>
-
-        </form>
-    </table>
+        </table>
+    </form>
 </div>
 </body>
 </html>

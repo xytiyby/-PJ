@@ -10,10 +10,22 @@ $dbname = "my_db";
 $conn = new mysqli($servername, $username, $password, $dbname);
 
 
+$id = 111;
+// 创建连接
+$conn = new mysqli($servername, $username, $password, $dbname);
+$sql = "SELECT * FROM `NurseLeader` WHERE `id`=$id";
+$result = $conn->query($sql);
+$data = mysqli_fetch_all($result, MYSQLI_ASSOC);
 
-
+//将二维数数组转化为一维数组
+foreach ($data as $key => $value) {
+    foreach ($value as $k => $v) {
+        $arr[$k]=$v;
+    }
+}
+$area = $arr['area'];
 //编写查询sql语句
-$sql = 'SELECT * FROM `patient`';
+$sql="SELECT * FROM `Bed` WHERE id='无' AND area= '$area'";
 //执行查询操作、处理结果集
 $result = mysqli_query($conn, $sql);
 if (!$result) {
@@ -22,7 +34,7 @@ if (!$result) {
 $data = mysqli_fetch_all($result, MYSQLI_ASSOC);
 
 //编写查询数量sql语句
-$sql = 'SELECT COUNT(*) FROM `patient`';
+$sql = 'SELECT COUNT(*) FROM `Bed`';
 //执行查询操作、处理结果集
 $n = mysqli_query($conn, $sql);
 if (!$n) {
@@ -38,7 +50,7 @@ $num = implode($num);
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>查看病人</title>
+    <title>未住人病床</title>
 </head>
 <style type="text/css">
     body {
@@ -74,15 +86,14 @@ $num = implode($num);
 <body>
 
 <div class="wrapper">
-    <h1>病人信息管理</h1>
+
+    <h1>病床信息管理</h1>
 
     <table width="960" border="1">
         <tr>
-            <th>住院号</th>
-            <th>姓名</th>
-            <th>性别</th>
-            <th>年龄</th>
-            <th>电话</th>
+            <th > <input name="bedId" type = "text" value="病床编号" readonly = "readonly"></th>
+            <th><input name="area" type = "text" value="所在病区" readonly = "readonly"></th>
+            <th><input name="id" type = "text" value="所住病人编号" readonly = "readonly"></th>
         </tr>
         <?php
 
@@ -92,48 +103,37 @@ $num = implode($num);
                 $arr[$k] = $v;
             }
             echo "<tr>";
+            echo "<td>{$arr['bedId']}</td>";
+            echo "<td>{$arr['area']}</td>";
             echo "<td>{$arr['id']}</td>";
-            echo "<td>{$arr['name']}</td>";
-            echo "<td>{$arr['sex']}</td>";
-            echo "<td>{$arr['age']}</td>";
-            echo "<td>{$arr['num']}</td>";
             echo "</tr>";
-
         }
         // 关闭连接
         mysqli_close($conn);
         ?>
+    </table>
+    <h1>病床分配</h1>
+<form method="post" action="action_distributeBed.php" enctype="multipart/form-data">
+    <table style="border: 1px;margin: 0 auto;background:oldlace" width="40%" cellpadding="5" cellspacing="0" >
+
+        <tr>
+            <td>病床号</td>
+            <td><input type="text" name="bedId" style="width:90%" >
+            </td>
+        </tr>
+        <tr>
+            <td>病人编号</td>
+            <td><input type="text" name="id" style="width:90%"></td>
+        </tr>
+
+        <tr>
+            <td colspan="4" align="center">
+         <input type="submit">
+            </td>
+        </tr>
 
     </table>
-    <table width="960" border="1">
-        <form method="post" action="action_select.php" enctype="multipart/form-data">
-            <tr>
-                <td>病区评级</td>
-                <td><input type="text" name="level" style="width:90%" >
-                </td>
-            </tr>
-
-            <tr>
-                <td>治疗区域</td>
-                <td><input type="text" name="canOut" style="width:90%"></td>
-            </tr>
-
-            <tr>
-                <td>是否转入其他区域</td>
-                <td><input type="text" name="canChange" style="width:90%"></td>
-            </tr>
-            <tr>
-                <td>生命状态</td>
-                <td><input type="text" name="state" style="width:90%"></td>
-            </tr>
-            <tr>
-                <td colspan="4" align="center">
-                    <input type="submit">
-                </td>
-            </tr>
-
-        </form>
-    </table>
+</form>
 </div>
 </body>
 </html>

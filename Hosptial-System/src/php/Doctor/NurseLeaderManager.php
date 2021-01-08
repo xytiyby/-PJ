@@ -4,25 +4,25 @@ $servername = "localhost";
 $username = "root";
 $password = "123456";
 $dbname = "my_db";
-$id = "111";
+$id = "11";
 // 创建连接
 $conn = new mysqli($servername, $username, $password, $dbname);
 
 
-$sql = "SELECT * FROM `NurseLeader` WHERE `id`=$id";
+$sql = "SELECT * FROM `Doctor` WHERE `id`=$id";
 $result = $conn->query($sql);
 $data = mysqli_fetch_all($result, MYSQLI_ASSOC);
 
 //将二维数数组转化为一维数组
 foreach ($data as $key => $value) {
     foreach ($value as $k => $v) {
-        $arr1[$k]=$v;
+        $arr2[$k]=$v;
     }
 }
-$area = $arr1["area"];
+$area = $arr2["area"];
 
 //编写查询sql语句
-$sql = "SELECT * FROM HouseNurse WHERE area = '$area'";
+$sql = "SELECT * FROM `NurseLeader` WHERE area = '$area'";
 //执行查询操作、处理结果集
 $result = mysqli_query($conn, $sql);
 if (!$result) {
@@ -80,7 +80,6 @@ $data = mysqli_fetch_all($result, MYSQLI_ASSOC);
             <th>性别</th>
             <th>年龄</th>
             <th>病区</th>
-            <th>看护人数</th>
             <th>操作</th>
         </tr>
 
@@ -90,14 +89,14 @@ $data = mysqli_fetch_all($result, MYSQLI_ASSOC);
                 $arr[$k] = $v;
             }
             echo "<tr>";
-            echo "<td>{$arr['nurseId']}</td>";
+            echo "<td>{$arr['id']}</td>";
             echo "<td>{$arr['name']}</td>";
             echo "<td>{$arr['sex']}</td>";
             echo "<td>{$arr['age']}</td>";
             echo "<td>{$arr['area']}</td>";
-            echo "<td>{$arr['number']}/4</td>";
+
             echo "<td>
-							<a href='javascript:del({$arr['nurseId']})'>删除</a>
+							<a href='javascript:del({$arr['id']})'>删除</a>
 							
 					  </td>";
             echo "</tr>";
@@ -107,20 +106,17 @@ $data = mysqli_fetch_all($result, MYSQLI_ASSOC);
         mysqli_close($conn);
         ?>
     </table>
-    <button>
-            <a href='addHouseNurse.php'>添加病房护士</a>
-    </button>
+
 </div>
 </body>
 
 <script type="text/javascript">
     function del(id) {
+        if(confirm("确定删除这个病房护士吗")){
 
-
-            if(confirm("确定删除这个病房护士吗")){
-
-            window.location = "action_del.php?nurseId=" + id;
+            window.location = "action_del.php?id=" + id;
         }
     }
 </script>
 </html>
+

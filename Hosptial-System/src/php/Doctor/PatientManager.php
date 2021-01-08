@@ -4,12 +4,12 @@ $servername = "localhost";
 $username = "root";
 $password = "123456";
 $dbname = "my_db";
-$id = "111";
+
 // 创建连接
 $conn = new mysqli($servername, $username, $password, $dbname);
 
 
-$sql = "SELECT * FROM `NurseLeader` WHERE `id`=$id";
+$sql = "SELECT * FROM `Doctor` WHERE `id`=11";
 $result = $conn->query($sql);
 $data = mysqli_fetch_all($result, MYSQLI_ASSOC);
 
@@ -19,17 +19,16 @@ foreach ($data as $key => $value) {
         $arr1[$k]=$v;
     }
 }
-$area = $arr1["area"];
+$area = $arr1['area'];
 
 //编写查询sql语句
-$sql = "SELECT * FROM HouseNurse WHERE area = '$area'";
+$sql = "SELECT * FROM `Case` inner join `Patient` on Case.id = Patient.id WHERE area = '$area'" ;
 //执行查询操作、处理结果集
 $result = mysqli_query($conn, $sql);
 if (!$result) {
     exit('查询sql语句执行失败。错误信息：'.mysqli_error($conn));  // 获取错误信息
 }
 $data = mysqli_fetch_all($result, MYSQLI_ASSOC);
-
 ?>
 
 <html>
@@ -71,16 +70,12 @@ $data = mysqli_fetch_all($result, MYSQLI_ASSOC);
 <body>
 
 <div class="wrapper">
-    <h1>病房护士信息管理</h1>
+    <h1>病人信息管理</h1>
 
     <table width="960" border="1">
         <tr>
-            <th>工号</th>
-            <th>姓名</th>
-            <th>性别</th>
-            <th>年龄</th>
+            <th>住院号</th>
             <th>病区</th>
-            <th>看护人数</th>
             <th>操作</th>
         </tr>
 
@@ -90,26 +85,42 @@ $data = mysqli_fetch_all($result, MYSQLI_ASSOC);
                 $arr[$k] = $v;
             }
             echo "<tr>";
-            echo "<td>{$arr['nurseId']}</td>";
-            echo "<td>{$arr['name']}</td>";
-            echo "<td>{$arr['sex']}</td>";
-            echo "<td>{$arr['age']}</td>";
+            echo "<td>{$arr['id']}</td>";
             echo "<td>{$arr['area']}</td>";
-            echo "<td>{$arr['number']}/4</td>";
             echo "<td>
-							<a href='javascript:del({$arr['nurseId']})'>删除</a>
-							
+							<a href='PatientCase.php?id={$arr['id']}'>修改病案</a>
+							<a href='addTestForm.php?id={$arr['id']}'>增加核酸检测单</a>
 					  </td>";
             echo "</tr>";
-
         }
         // 关闭连接
         mysqli_close($conn);
         ?>
     </table>
-    <button>
-            <a href='addHouseNurse.php'>添加病房护士</a>
-    </button>
+    <table width="960" border="1">
+        <form method="post" action="action_select.php" enctype="multipart/form-data">
+            <tr>
+                <td>生命状态</td>
+                <td><input type="text" name="state" style="width:90%" >
+                </td>
+            </tr>
+            <tr>
+                <td>是否满足出院条件</td>
+                <td><input type="text" name="canOut" style="width:90%"></td>
+            </tr>
+            <tr>
+                <td>是否转入其他区域</td>
+                <td><input type="text" name="canChange" style="width:90%"></td>
+            </tr>
+            <tr>
+                <td colspan="4" align="center">
+                    <input type="submit">
+                </td>
+            </tr>
+
+        </form>
+    </table>
+
 </div>
 </body>
 
@@ -117,10 +128,11 @@ $data = mysqli_fetch_all($result, MYSQLI_ASSOC);
     function del(id) {
 
 
-            if(confirm("确定删除这个病房护士吗")){
+        if(confirm("确定删除这个病房护士吗")){
 
-            window.location = "action_del.php?nurseId=" + id;
+            window.location = "action_del.php?id=" + id;
         }
     }
 </script>
 </html>
+

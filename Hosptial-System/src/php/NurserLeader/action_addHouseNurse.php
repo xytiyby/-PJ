@@ -12,22 +12,22 @@ $conn = new mysqli($servername, $username, $password, $dbname);
 $name = $_POST['name'];
 $sex = $_POST['sex'];
 $age = $_POST['age'];
-$id = $_POST['id'];
+$nurseId = $_POST['nurseId'];
 $number = $_POST['number'];
 $area = $_POST['area'];
 $position = $_POST['position'];
-
+$max = $_POST['max'];
 //编写预处理sql语句
-$sql = "INSERT INTO `HouseNurse` VALUES( ?, ?, ?, ?, ?,?,?)";
+$sql = "INSERT INTO `HouseNurse` VALUES( ?, ?, ?, ?, ?,?,?,?)";
 
 //预处理SQL模板
 $stmt = mysqli_prepare($conn, $sql);
 
 // 参数绑定，并为已经绑定的变量赋值
-mysqli_stmt_bind_param($stmt, 'sssssss', $id, $name, $sex, $age, $position,$area,$number);
+mysqli_stmt_bind_param($stmt, 'sssssss', $nurseId, $name, $sex, $age, $position,$area,$max,$number);
 
 
-if ($id) {
+if ($nurseId) {
     // 执行预处理（第1次执行）
     $result = mysqli_stmt_execute($stmt);
 
@@ -36,7 +36,7 @@ if ($id) {
     if ($result) {
         //添加学生成功
         //跳转到首页
-        header("Location:NurseManager.php");
+        header("Location:NurseLeaderManager.php");
     }else{
         exit('添加学生sql语句执行失败。错误信息：' . mysqli_error($conn));
     }

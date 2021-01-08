@@ -9,17 +9,15 @@ $dbname = "my_db";
 $conn = new mysqli($servername, $username, $password, $dbname);
 
 
-$sql = "CREATE TABLE Case (
-id INT(6) UNSIGNED AUTO_INCREMENT PRIMARY KEY, 
-name VARCHAR(30),
-inDate VARCHAR(30),
-level VARCHAR(10),
-state VARCHAR(10),
-area VARCHAR(10),
-bed VARCHAR(10),
-housenurse VARCHAR(10),
-outDate VARCHAR(10)
+$sql = "CREATE TABLE Bed(
+registerId INT(6) UNSIGNED AUTO_INCREMENT PRIMARY KEY, 
+id INT(6) ,
+data VARCHAR (20),
+temperature VARCHAR(20) ,
+symptoms VARCHAR (20),
+state VARCHAR (20)
 )";
+
 if ($conn->multi_query($sql) === TRUE) {
     echo "新记录插入成功";
 } else {
@@ -29,3 +27,4 @@ if ($conn->multi_query($sql) === TRUE) {
 mysqli_close($conn);
 ?>
 
+<a href="EmergencyNurse,PHP?id=  "

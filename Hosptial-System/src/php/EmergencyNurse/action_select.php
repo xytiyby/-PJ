@@ -5,24 +5,18 @@ $username = "root";
 $password = "123456";
 $dbname = "my_db";
 
+
+$state =$_POST['state'];
+$canChange =$_POST['canChange'];
+$level =$_POST['level'];
+$area = $_POST['area'];
 // 创建连接
 $conn = new mysqli($servername, $username, $password, $dbname);
 
 
-$sql = "SELECT * FROM `NurseLeader` WHERE `id`=111";
-$result = $conn->query($sql);
-$data = mysqli_fetch_all($result, MYSQLI_ASSOC);
-
-//将二维数数组转化为一维数组
-foreach ($data as $key => $value) {
-    foreach ($value as $k => $v) {
-        $arr1[$k]=$v;
-    }
-}
-$area = $arr1['area'];
 
 //编写查询sql语句
-$sql = "SELECT * FROM `Case` inner join `Patient` on Case.id = Patient.id WHERE area = '$area'" ;
+$sql = "SELECT * FROM (`Case` inner join `Patient` on Case.id = Patient.id)inner join `OutHere` on OutHere.id = Patient.id WHERE area = '$area' AND state = '$state'AND canChange = '$canChange' "  ;
 //执行查询操作、处理结果集
 $result = mysqli_query($conn, $sql);
 if (!$result) {
@@ -99,29 +93,33 @@ $data = mysqli_fetch_all($result, MYSQLI_ASSOC);
         ?>
     </table>
     <table width="960" border="1">
-     <form method="post" action="action_select.php" enctype="multipart/form-data">
-         <tr>
-             <td>生命状态</td>
-             <td><input type="text" name="state" style="width:90%" >
-             </td>
-         </tr>
+        <form method="post" action="action_select.php" enctype="multipart/form-data">
+            <tr>
+                <td>病区评级</td>
+                <td><input type="text" name="level" style="width:90%" >
+                </td>
+            </tr>
 
-         <tr>
-             <td>出院条件</td>
-             <td><input type="text" name="canOut" style="width:90%"></td>
-         </tr>
+            <tr>
+                <td>治疗区域</td>
+                <td><input type="text" name="canOut" style="width:90%"></td>
+            </tr>
 
-         <tr>
-             <td>是否转入其他区域</td>
-             <td><input type="text" name="canChange" style="width:90%"></td>
-         </tr>
-         <tr>
-             <td colspan="4" align="center">
-                 <input type="submit">
-             </td>
-         </tr>
+            <tr>
+                <td>是否转入其他区域</td>
+                <td><input type="text" name="canChange" style="width:90%"></td>
+            </tr>
+            <tr>
+                <td>生命状态</td>
+                <td><input type="text" name="state" style="width:90%"></td>
+            </tr>
+            <tr>
+                <td colspan="4" align="center">
+                    <input type="submit">
+                </td>
+            </tr>
 
-     </form>
+        </form>
     </table>
 
 </div>
@@ -138,3 +136,4 @@ $data = mysqli_fetch_all($result, MYSQLI_ASSOC);
     }
 </script>
 </html>
+

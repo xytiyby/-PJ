@@ -4,12 +4,12 @@ $servername = "localhost";
 $username = "root";
 $password = "123456";
 $dbname = "my_db";
-$id = "111";
+$id = "11";
 // 创建连接
 $conn = new mysqli($servername, $username, $password, $dbname);
 
 
-$sql = "SELECT * FROM `NurseLeader` WHERE `id`=$id";
+$sql = "SELECT * FROM `Doctor` WHERE `id`=$id";
 $result = $conn->query($sql);
 $data = mysqli_fetch_all($result, MYSQLI_ASSOC);
 

@@ -4,7 +4,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>添加病房护士</title>
+    <title>入院登记表</title>
 </head>
 <style>
     th, td{
@@ -43,49 +43,41 @@
 
 
 <body>
-<h1 align="center">添加病房护士</h1>
+<h1 align="center">入院登记表</h1>
 <table style="border: 1px;margin: 0 auto;background: snow" width="40%" cellpadding="5" cellspacing="0" >
-    <form action="action_addHouseNurse.php" method="post" enctype="multipart/form-data">
+    <form action="action_addForm.php" method="post" enctype="multipart/form-data">
         <tr>
-            <td>工号</td>
-            <td><input type="text" name="nurseId" style="width:90%"></td>
+            <td>登记单号</td>
+            <td><input type="text" name="registerId" style="width:90%"></td>
         </tr>
         <tr>
-            <td>姓名</td>
-            <td><input type="text" name="name" style="width:90%"></td>
-        </tr>
-        <tr>
-            <td >性别</td>
-            <td><input type="text" name="sex" style="width:90%"></td>
-        </tr>
-        <tr>
-            <td >年龄</td>
-            <td><input type="text" name = "age" style="width:90%"></td>
-        </tr>
-        <tr>
-            <td>职位</td>
-            <td><input type="text"name = "position" style="width:90%" ></td>
-        </tr>
-        <tr>
-            <td>病区</td>
-            <td><input type="text" name="area" style="width:90%"></td>
-        </tr>
-        <tr>
-            <td>病区</td>
-            <td><input type="text" name="max" style="width:90%"></td>
-        </tr>
-        <tr>
-            <td>看护人数</td>
-            <td><input type="text" name = "number" style="width:90%"></td>
+            <td>入院号</td>
+            <td><input type="text" name="id" style="width:90%"></td>
         </tr>
 
-    <tr>
-        <td colspan="4" align="center">
-            <input  type="submit" >
-        </td>
-    </tr>
-    </form>
+        <tr>
+            <td >记录日期</td>
+            <td><input type="text" name = "date" style="width:90%"></td>
+        </tr>
+        <tr>
+            <td >体温</td>
+            <td><input type="text"name = "temperature" style="width:90%" ></td>
+        </tr>
+        <tr>
+            <td>症状</td>
+            <td><input type="text" name="symptoms" style="width:90%"></td>
+        </tr>
+        <tr>
+            <td>生命状态</td>
+            <td><input type="text" name = "state" style="width:90%"></td>
+        </tr>
+        <tr>
+            <td></td>
+            <td><input type="submit"></td>
+        </tr>
 </table>
+    </form>
+
 </body>
 <footer>
     <br>

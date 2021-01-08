@@ -8,10 +8,10 @@ $dbname = "my_db";
 // 创建连接
 $conn = new mysqli($servername, $username, $password, $dbname);
 
-$id = $_GET['id'];
+$nurseid = $_GET['nurseId'];
 //删除指定数据  
 //编写删除sql语句
-$sql = "DELETE FROM HouseNurse WHERE id={$id}";
+$sql = "DELETE FROM HouseNurse WHERE id={$nurseid}";
 //执行查询操作、处理结果集
 $result = mysqli_query($conn, $sql);
 if (!$result) {
@@ -19,6 +19,6 @@ if (!$result) {
 }
 
 // 删除完跳转到首页
-header("Location:NurseManager.php");
+header("Location:NurseLeaderManager.php");
 
 
